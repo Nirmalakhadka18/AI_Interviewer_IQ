@@ -9,7 +9,7 @@ import InterviewPage from './pages/InterviewPage';
 import Pricing from './pages/Pricing';
 import InterviewHistory from './pages/InterviewHistory';
 import InterviewReport from './pages/InterviewReport';
-export const ServerUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:8000"
+export const ServerUrl = import.meta.env.VITE_SERVER_URL || "https://ai-interviewer-iq.onrender.com"
 
 function App() {
 
