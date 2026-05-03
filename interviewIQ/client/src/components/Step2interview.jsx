@@ -12,6 +12,7 @@ import { BsArrowLeft } from 'react-icons/bs';
 function Step2Interview({ interviewData, onFinish }) {
     const { interviewId, questions, userName } = interviewData;
     const [isIntroPhase, setIsIntroPhase] = useState(true);
+    const [browserSupported, setBrowserSupported] = useState(true);
 
     const [isMicOn, setIsMicOn] = useState(true);
     const isMicOnRef = useRef(true);
@@ -211,7 +212,7 @@ useEffect(() => {
         window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-        alert("Speech Recognition not supported in this browser.");
+        setBrowserSupported(false);
         return;
     }
 
@@ -462,6 +463,12 @@ useEffect(() => {
     return (
         <div className='min-h-screen bg-gradient-to-br from-emerald-50 via-white 
         to-teal-100 flex items-center justify-center p-4 sm:p-6'>
+
+            {!browserSupported && (
+                <div className='fixed top-0 left-0 right-0 z-50 bg-red-500 text-white text-center py-3 px-4 text-sm font-medium'>
+                    ⚠️ Your browser does not support Voice Recognition. Please open in <strong>Google Chrome</strong> for the best experience. You can still type your answers manually.
+                </div>
+            )}
             <div className='w-full max-w-[1350px] min-h-[80vh] bg-white rounded-3xl shadow-2xl border 
             border-gray-200 flex flex-col lg:flex-row overflow-hidden'>
 
@@ -558,9 +565,12 @@ useEffect(() => {
 }
 
                     <textarea
-    placeholder="Type your answer here..."
+    placeholder={browserSupported ? "Your answer will appear here as you speak..." : "Type your answer here (voice not supported in this browser)..."}
     value={answer}
-    onChange={(e) => setAnswer(e.target.value)}
+    onChange={(e) => {
+        setAnswer(e.target.value);
+        answerRef.current = e.target.value;
+    }}
     disabled={!!feedback}
     className='flex-1 bg-gray-100 p-4 sm:p-6 rounded-2xl resize-none
      outline-none border border-gray-200 focus:ring-2 
