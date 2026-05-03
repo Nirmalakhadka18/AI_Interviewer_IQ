@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import femaleVideo from "../assets/videos/female-ai.mp4";
 import maleVideo from "../assets/videos/male-ai.mp4";
 import Timer from './Timer';
@@ -238,12 +239,13 @@ recognition.interimResults = true;
 
     if (finalTranscript.trim()) {
         console.log("You said:", finalTranscript);
-
         const updated = answerRef.current
             ? answerRef.current + " " + finalTranscript.trim()
             : finalTranscript.trim();
         answerRef.current = updated;
-        setAnswer(updated);
+        flushSync(() => {
+            setAnswer(updated);
+        });
     }
 };
 
