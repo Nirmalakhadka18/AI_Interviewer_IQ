@@ -289,7 +289,16 @@ res.json({
      const { interviewId, questionIndex, answer, timeTaken } = req.body;
 
         const interview = await Interview.findById(interviewId);
+
+        if (!interview) {
+            return res.status(404).json({ message: "Interview not found" });
+        }
+
         const question = interview.questions[questionIndex];
+
+        if (!question) {
+            return res.status(400).json({ message: "Invalid question index" });
+        }
 
         // If no answer
         if (!answer) {

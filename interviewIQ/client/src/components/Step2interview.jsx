@@ -374,7 +374,7 @@ const submitAnswer = async () => {
             {
                 interviewId,
                 questionIndex: currentIndex,
-                answer,
+                answer: answerRef.current,
                 timeTaken:
                     currentQuestion.timeLimit - timeLeft,
             }, {withCredentials:true});
